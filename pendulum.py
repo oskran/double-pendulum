@@ -78,41 +78,6 @@ class Pendulum:
     def vy(self):
         return np.gradient(self.y, self.t)
 
-    def create_animation(self):
-        # Create empty figure
-        fig = plt.figure()
-
-        # Configure figure
-        plt.axis("equal")
-        plt.axis("off")
-        plt.axis((-3, 3, -3, 3))
-
-        # Make an "empty" plot object to be updated throughout the animation
-        self.pendulums, = plt.plot([], [], "o-", lw=2)
-
-        # Call FuncAnimation
-        self.animation = animation.FuncAnimation(
-            fig,
-            self._next_frame,
-            frames=range(len(self.x)),
-            repeat=None,
-            interval=1000 * self.dt,
-            blit=True,
-        )
-
-    def _next_frame(self, i):
-        self.pendulums.set_data(
-            (0, self.x[i], (0, self.y[i])
-        )
-
-        return (self.pendulums,)
-
-    def show_animation(self):
-        plt.show()
-
-    def save_animation(self):
-        self.animation.save("pendulum_motion.mp4", fps=60)
-
 
 class DampenedPendulum(Pendulum):
     def __init__(self, L=1, M=1, B=0):

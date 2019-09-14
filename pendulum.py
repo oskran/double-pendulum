@@ -12,8 +12,15 @@ class Pendulum:
         self.g = 9.81
 
     def __call__(self, t, y):
-        """Theta gives the pendulums position
-        Omega gives the velosity / movement"""
+        """
+
+
+        Parameters:
+
+        Returns:
+        d_theta (): Derivative of the pendulums position = the velocity
+        d_omega (): Derivative of the velocity / movement = the acceleration
+        """
 
         theta = y[0]
         omega = y[1]
@@ -25,6 +32,16 @@ class Pendulum:
         return [d_theta, d_omega]
 
     def solve(self, y0, T, dt, angles):
+        """ 
+        Solves the ODE
+
+        Parameters:
+        self.model (function): The ODE to be solved
+        u0 (int): The initial value 
+        T (int): The end of the time interval
+        dt (float): The points where the solution is evaluated
+        angles (string): Whether the initial condition is gives as degrees or radius
+        """
 
         if angles == "deg":
             [y0[i] * (math.pi / 180) for i in y0]

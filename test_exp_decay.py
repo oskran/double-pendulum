@@ -5,7 +5,7 @@ import numpy as np
 a = 0.4
 u0 = 1
 T = 15
-dt = 1
+dt = 0.1
 
 decay_model = ExponentialDecay(a)
 t, u = decay_model.solve(u0, T, dt)
@@ -20,9 +20,10 @@ def test_1a():
 test_1a() """
 
 
+print(t.shape, u.shape)
+""" 
 def test_1b():
     plt.plot(t, u[0, :])
     plt.show()
 
-
-test_1b()
+test_1b() """

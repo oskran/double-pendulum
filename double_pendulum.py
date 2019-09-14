@@ -22,7 +22,7 @@ class DoublePendulum:
         L2 = self.L2
         M2 = self.M2
         theta1 = y[0]
-        theta2 = y[2]
+        theta2 = y[1]
         omega1 = y[2]
         omega2 = y[3]
         delta_theta = theta2 - theta1
@@ -49,7 +49,7 @@ class DoublePendulum:
     def solve(self, y0, T, dt, angles):
         self.dt = dt
         if angles == "deg":
-            [i * (math.pi / 180) for i in y0]
+            y0 = [i * (math.pi / 180) for i in y0]
 
         assert angles in ["deg", "rad"], ValueError
 

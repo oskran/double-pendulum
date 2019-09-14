@@ -7,7 +7,7 @@ u0 = 1
 
 T = 30
 
-dt = list(range(0, 10, 1))
+dt = 1
 
 decay_model = ExponentialDecay(a)
 

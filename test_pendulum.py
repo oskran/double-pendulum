@@ -47,8 +47,8 @@ test_2c_called()
 
 
 def test_r2eql2():
-    """ Vertifies that the radius squared is almost equal
-    to the lenght of the pendulum rod squared at all times """
+    """ Verifies that the radius squared is almost equal
+    to the length of the pendulum rod squared at all times """
     L = 2.7
     omega0 = 0.15
     theta0 = 3.14 / 6

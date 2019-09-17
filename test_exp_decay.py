@@ -10,22 +10,12 @@ dt = 0.1
 decay_model = ExponentialDecay(a)
 t, u = decay_model.solve(u0, T, dt)
 
-""" 
-def test_1a():
+# Not working
+""" def test_1a():
     a = 0.4
     decay_model = ExponentialDecay(a)
-    decay_model(u)
+    assert decay_model(u) == −1.28
 
 
 test_1a() """
-
-
-print(t.shape, u.shape)
-
-
-def test_1b():
-    plt.plot(t, u[0, :])
-    plt.show()
-
-test_1b()
 

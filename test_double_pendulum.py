@@ -20,7 +20,7 @@ dt = 0.1
 f = DoublePendulum(M1=M1, M2=M2, L1=L1, L2=L2)
 f.solve(y0, T, dt, "deg")
 
-# c)
+# 3d) Checking energy conservation - Plottinh
 # Plots potetial, kinetic and total energy
 """ plt.plot(f.t, f.potential)  # Potential energy
 plt.plot(f.t, f.kinetic)  # Kinetic energy
@@ -30,6 +30,7 @@ plt.plot(
 
 plt.show() """
 
+# 4d) Creating an animation
 # Create animation and save it
 f.create_animation()
 f.show_animation()

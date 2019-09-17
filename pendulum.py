@@ -33,6 +33,7 @@ class Pendulum:
 
         return [d_theta, d_omega]
 
+# 2b) Solving the equations of motions
     def solve(self, y0, T, dt, angles):
         """ 
         Solves the ODE
@@ -50,7 +51,8 @@ class Pendulum:
 
         assert angles in ["deg", "rad"], ValueError
 
-        solved = solve_ivp(self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
+        solved = solve_ivp(
+            self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
 
         self.solved = solved
 
@@ -66,6 +68,7 @@ class Pendulum:
     def omega(self):
         return self.solved.y[1]
 
+# 2d) Translating to Cartesian coordinates
     @property
     def x(self):
         return [self.L * math.sin(i) for i in self.theta]
@@ -74,6 +77,7 @@ class Pendulum:
     def y(self):
         return [-self.L * math.cos(i) for i in self.theta]
 
+# 2e) Energy conservation
     @property
     def potential(self):
         # Potential energy
@@ -96,6 +100,8 @@ class Pendulum:
     @property
     def vy(self):
         return np.gradient(self.y, self.t)
+
+# 2g) A Dampened Pendulum
 
 
 class DampenedPendulum(Pendulum):
@@ -121,6 +127,7 @@ class DampenedPendulum(Pendulum):
         return [d_theta, d_omega]
 
 
+# 2f) Example use
 if __name__ == "__main__":
     L = 2.7
     omega0 = 0.15

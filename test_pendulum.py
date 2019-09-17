@@ -3,12 +3,11 @@ import math
 import numpy as np
 from matplotlib import pyplot as plt
 
-# a)
+# 2a) A class for representing the system
 
 
-# b)
+# 2c) Adding properties for accessing the solutions
 
-# c)
 def test_2c_not_called():
     """ Test whether an exception is raised if .t, .theta, 
     or .omega are accessed before .solve() is called """
@@ -45,6 +44,8 @@ def test_2c_called():
 test_2c_called()
 
 # d)
+
+
 def test_r2eql2():
     """ Vertifies that the radius squared is almost equal
     to the lenght of the pendulum rod squared at all times """

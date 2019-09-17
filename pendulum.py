@@ -13,13 +13,15 @@ class Pendulum:
 
     def __call__(self, t, y):
         """
-
+        The two ODEs to be solves
 
         Parameters:
+        t (float):  Time
+        y (n-dimensional vector-valued function): State
 
         Returns:
-        d_theta (): Derivative of the pendulums position = the velocity
-        d_omega (): Derivative of the velocity / movement = the acceleration
+        d_theta (float): Derivative of the pendulums position = the velocity
+        d_omega (float): Derivative of the velocity / movement = the acceleration
         """
 
         theta = y[0]
@@ -117,3 +119,47 @@ class DampenedPendulum(Pendulum):
         d_omega = (-(self.g / self.L) * math.sin(theta)) - damp  # Acceleration
 
         return [d_theta, d_omega]
+
+
+if __name__ == "__main__":
+    L = 2.7
+    omega0 = 0.15
+    theta0 = 3.14 / 6
+    y0 = [theta0, omega0]
+    T = 10
+    dt = 0.1
+
+    # Create pendulum instance
+    f = Pendulum(L=L)
+
+    # Solving
+    f.solve(y0, T, dt, "rad")
+
+    # Plotting the motion
+    plt.plot(f.t, f.theta)
+    plt.show()
+
+    # Plotting the kinetic, potential, and total energy
+    plt.plot(f.t, f.potential)  # Potential energy
+    plt.plot(f.t, f.kinetic)  # Kinetic energy
+    plt.plot(
+        f.t, [f.potential[i] + f.kinetic[i] for i, j in enumerate(f.potential)]
+    )  # Total energy
+
+    plt.show()
+
+    # f)
+    # Plot total energy of the dampened pendulum
+    B = 0.5  # Dampening term
+    f_dampened = DampenedPendulum(L=L, B=B)
+    f_dampened.solve(y0, T, dt, "rad")
+
+    plt.plot(
+        f_dampened.t,
+        [
+            f_dampened.potential[i] + f_dampened.kinetic[i]
+            for i, j in enumerate(f_dampened.potential)
+        ],
+    )
+
+    plt.show()

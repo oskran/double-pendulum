@@ -49,7 +49,7 @@ class DoublePendulum:
 
         return [d_theta1, d_theta2, d_omega1, d_omega2]
 
-# 3b) Solving the equations of motions
+    # 3b) Solving the equations of motions
     def solve(self, y0, T, dt, angles):
         self.dt = dt
         if angles == "deg":
@@ -57,12 +57,11 @@ class DoublePendulum:
 
         assert angles in ["deg", "rad"], ValueError
 
-        solved = solve_ivp(
-            self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
+        solved = solve_ivp(self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
 
         self.solved = solved
 
-# 3c) Adding properties
+    # 3c) Adding properties
     @property
     def t(self):
         return self.solved.t
@@ -77,28 +76,28 @@ class DoublePendulum:
 
     @property
     def x1(self):
-        return [self.L1 * math.sin(i) for i in self.theta1]
+        return self.L1 * np.sin(self.theta1)
 
     @property
     def y1(self):
-        return [-self.L1 * math.cos(i) for i in self.theta1]
+        return -self.L1 * np.cos(self.theta1)
 
     @property
     def x2(self):
-        return [self.x1[i] + self.L2 * math.sin(j) for i, j in enumerate(self.theta2)]
+        return self.x1 + self.L2 * np.sin(self.theta2)
 
     @property
     def y2(self):
-        return [self.y1[i] - self.L2 * math.cos(j) for i, j in enumerate(self.theta2)]
+        return self.y1 - self.L2 * np.cos(self.theta2)
 
-# 3d) Checking energy conservation
+    # 3d) Checking energy conservation
     @property
     def potential(self):
-        P1 = [self.M1 * self.g * (y + self.L1) for y in self.y1]
+        P1 = self.M1 * self.g * (self.y1 + self.L1)
 
-        P2 = [self.M2 * self.g * (y + self.L1 + self.L2) for y in self.y2]
+        P2 = self.M2 * self.g * (self.y2 + self.L1 + self.L2)
 
-        P = [P1[i] + P2[i] for i, j in enumerate(P1)]
+        P = P1 + P2
 
         return P
 
@@ -120,19 +119,13 @@ class DoublePendulum:
 
     @property
     def kinetic(self):
-        K1 = [
-            (1 / 2) * self.M1 * ((self.vx1[i] ** 2) + (self.vy1[i] ** 2))
-            for i, y in enumerate(self.vy1)
-        ]
+        K1 = (1 / 2) * self.M1 * ((self.vx1 ** 2) + (self.vy1 ** 2))
 
-        K2 = [
-            (1 / 2) * self.M2 * ((self.vx2[i]) ** 2 + (self.vy2[i] ** 2))
-            for i, y in enumerate(self.vy2)
-        ]
+        K2 = (1 / 2) * self.M2 * ((self.vx2) ** 2 + (self.vy2 ** 2))
 
-        return [K1[i] + K2[i] for i, j in enumerate(K1)]
+        return K1 + K2
 
-# 4a) Setting up the animation
+    # 4a) Setting up the animation
     def create_animation(self):
         # Create empty figure
         fig = plt.figure()
@@ -149,25 +142,26 @@ class DoublePendulum:
         self.animation = animation.FuncAnimation(
             fig,
             self._next_frame,
-            frames=range(len(self.x1)),
+            frames=range(0, len(self.x1), 16),
             repeat=None,
-            interval=1000 * self.dt,
+            interval=1,
             blit=True,
         )
 
-# 4b) The `_next_frame` method
+    # 4b) The `_next_frame` method
     def _next_frame(self, i):
         self.pendulums.set_data(
             (0, self.x1[i], self.x2[i]), (0, self.y1[i], self.y2[i])
         )
         return (self.pendulums,)
 
-# 4c) Interface for animations
+    # 4c) Interface for animations
     def show_animation(self):
         plt.show()
 
     def save_animation(self):
         self.animation.save("pendulum_motion.mp4", fps=60)
+
 
 if __name__ == "__main__":
     # Parameters:
@@ -181,7 +175,7 @@ if __name__ == "__main__":
     omega2 = 0.15
     y0 = (theta1, theta2, omega1, omega2)
     T = 10
-    dt = 0.1
+    dt = 1e-3
 
     # Create object and solve:
     f = DoublePendulum(M1=M1, M2=M2, L1=L1, L2=L2)

@@ -11,7 +11,7 @@ class Pendulum:
         self.M = M  # Mass of the pendulum
         self.g = 9.81
 
-    def __call__(self, t, y):
+    def __call__(self, t=0, y=0):
         """
         The two ODEs to be solves
 
@@ -27,13 +27,13 @@ class Pendulum:
         theta = y[0]
         omega = y[1]
 
-        d_theta = omega  # Velocity
+        d_theta = omega
 
-        d_omega = -(self.g / self.L) * math.sin(theta)  # Acceleration
+        d_omega = -(self.g / self.L) * np.sin(theta)
 
         return [d_theta, d_omega]
 
-# 2b) Solving the equations of motions
+    # 2b) Solving the equations of motions
     def solve(self, y0, T, dt, angles):
         """ 
         Solves the ODE
@@ -51,47 +51,48 @@ class Pendulum:
 
         assert angles in ["deg", "rad"], ValueError
 
-        solved = solve_ivp(
-            self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
+        solved = solve_ivp(self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
 
         self.solved = solved
 
     @property
     def t(self):
-        return self.solved.t
+        if hasattr(self, "solved") == False:
+            raise Exception(".solved() has not been called")
+        else:
+            return self.solved.t
 
     @property
     def theta(self):
-        return self.solved.y[0]
+        if hasattr(self, "solved") == False:
+            raise Exception(".solved() has not been called")
+        else:
+            return self.solved.y[0]
 
     @property
     def omega(self):
-        return self.solved.y[1]
+        if hasattr(self, "solved") == False:
+            raise Exception(".solved() has not been called")
+        else:
+            return self.solved.y[1]
 
-# 2d) Translating to Cartesian coordinates
+    # 2d) Translating to Cartesian coordinates
     @property
     def x(self):
-        return [self.L * math.sin(i) for i in self.theta]
+        return self.L * np.sin(self.theta)
 
     @property
     def y(self):
-        return [-self.L * math.cos(i) for i in self.theta]
+        return -self.L * np.cos(self.theta)
 
-# 2e) Energy conservation
+    # 2e) Energy conservation
     @property
     def potential(self):
-        # Potential energy
-        P = [self.M * self.g * (y + self.L) for y in self.y]
-        return P
+        return self.M * self.g * (self.y + self.L)
 
     @property
     def kinetic(self):
-        K = [
-            (1 / 2) * self.M * (self.vx[i] ** 2 + self.vy[i] ** 2)
-            for i, y in enumerate(self.vy)
-        ]
-
-        return K
+        return (1 / 2) * self.M * (self.vx ** 2 + self.vy ** 2)
 
     @property
     def vx(self):
@@ -100,6 +101,7 @@ class Pendulum:
     @property
     def vy(self):
         return np.gradient(self.y, self.t)
+
 
 # 2g) A Dampened Pendulum
 

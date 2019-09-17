@@ -21,9 +21,11 @@ test_1a() """
 
 
 print(t.shape, u.shape)
-""" 
+
+
 def test_1b():
     plt.plot(t, u[0, :])
     plt.show()
 
-test_1b() """
+test_1b()
+

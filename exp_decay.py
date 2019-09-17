@@ -27,5 +27,4 @@ class ExponentialDecay:
         solved = solve_ivp(
             self, [0, T], [u0], method="Radau", t_eval=np.arange(0, T, dt)
         )
-
         return solved.t, solved.y

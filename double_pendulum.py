@@ -4,6 +4,8 @@ import numpy as np
 from matplotlib import animation
 from matplotlib import pyplot as plt
 
+# 3a) A class for representing the system
+
 
 class DoublePendulum:
     def __init__(self, L1=1, M1=1, L2=1, M2=1):
@@ -47,6 +49,7 @@ class DoublePendulum:
 
         return [d_theta1, d_theta2, d_omega1, d_omega2]
 
+# 3b) Solving the equations of motions
     def solve(self, y0, T, dt, angles):
         self.dt = dt
         if angles == "deg":
@@ -54,10 +57,12 @@ class DoublePendulum:
 
         assert angles in ["deg", "rad"], ValueError
 
-        solved = solve_ivp(self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
+        solved = solve_ivp(
+            self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
 
         self.solved = solved
 
+# 3c) Adding properties
     @property
     def t(self):
         return self.solved.t
@@ -86,6 +91,7 @@ class DoublePendulum:
     def y2(self):
         return [self.y1[i] - self.L2 * math.cos(j) for i, j in enumerate(self.theta2)]
 
+# 3d) Checking energy conservation
     @property
     def potential(self):
         P1 = [self.M1 * self.g * (y + self.L1) for y in self.y1]
@@ -126,6 +132,7 @@ class DoublePendulum:
 
         return [K1[i] + K2[i] for i, j in enumerate(K1)]
 
+# 4a) Setting up the animation
     def create_animation(self):
         # Create empty figure
         fig = plt.figure()
@@ -148,12 +155,14 @@ class DoublePendulum:
             blit=True,
         )
 
+# 4b) The `_next_frame` method
     def _next_frame(self, i):
         self.pendulums.set_data(
             (0, self.x1[i], self.x2[i]), (0, self.y1[i], self.y2[i])
         )
         return (self.pendulums,)
 
+# 4c) Interface for animations
     def show_animation(self):
         plt.show()
 

@@ -43,7 +43,7 @@ def test_2c_called():
 
 test_2c_called()
 
-# d)
+# 2d) Translating to Cartesian coordinates - Unit test
 
 
 def test_r2eql2():

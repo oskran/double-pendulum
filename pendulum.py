@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
     plt.show()
 
-    # f)
+    # 2g) A Dampened Pendulum
     # Plot total energy of the dampened pendulum
     B = 0.5  # Dampening term
     f_dampened = DampenedPendulum(L=L, B=B)

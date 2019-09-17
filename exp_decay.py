@@ -9,7 +9,7 @@ class ExponentialDecay:
     def __init__(self, a):
         self.a = a
 
-    def __call__(self, t, u):
+    def __call__(self, t=0, u=0):
         """ Exponential decay function """
         return -self.a * u
 
@@ -35,7 +35,7 @@ class ExponentialDecay:
 # 1b)
 if __name__ == "__main__":
 
-    def test_1b():
+    def example_1b():
         a = 0.4
         u0 = 1
         T = 15
@@ -46,4 +46,4 @@ if __name__ == "__main__":
         plt.plot(t, u[0, :])
         plt.show()
 
-        test_1b()
+    example_1b()

@@ -30,6 +30,7 @@ class ExponentialDecay:
         return solved.t, solved.y
 
 
+# 1b)
 if __name__ == "__main__":
 
     def test_1b():

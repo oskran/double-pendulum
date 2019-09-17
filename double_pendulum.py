@@ -164,35 +164,43 @@ class DoublePendulum:
 
 
 if __name__ == "__main__":
-    # Parameters:
-    L1 = 1
-    L2 = 1
-    M2 = 1
-    M1 = 1
-    theta1 = 90
-    theta2 = 90
-    omega1 = 0.15
-    omega2 = 0.15
-    y0 = (theta1, theta2, omega1, omega2)
-    T = 10
-    dt = 1e-3
+    # 3d) Checking energy conservation - Plotting
+    def plot_energy():
+        """ Plots potential, kinetic and total energy """
+        theta1 = 90
+        theta2 = 90
+        omega1 = 0.15
+        omega2 = 0.15
+        y0 = (theta1, theta2, omega1, omega2)
+        T = 10
+        dt = 1e-3
 
-    # Create object and solve:
-    f = DoublePendulum(M1=M1, M2=M2, L1=L1, L2=L2)
-    f.solve(y0, T, dt, "deg")
+        f = DoublePendulum()
+        f.solve(y0, T, dt, "deg")
 
-    # 3d) Checking energy conservation - Plottinh
-    # Plots potetial, kinetic and total energy
-    plt.plot(f.t, f.potential)  # Potential energy
-    plt.plot(f.t, f.kinetic)  # Kinetic energy
-    plt.plot(
-        f.t, [f.potential[i] + f.kinetic[i] for i, j in enumerate(f.potential)]
-    )  # Total energy
+        plt.plot(f.t, f.potential)
+        plt.plot(f.t, f.kinetic)
+        plt.plot(f.t, f.kinetic + f.potential)
 
-    plt.show()
+        plt.show()
 
     # 4d) Creating an animation
-    # Create animation and save it
-    f.create_animation()
-    f.show_animation()
-    f.save_animation()
+    def animate():
+        """ Creates, shows, and saves an animation of the pendulum """
+        theta1 = 90
+        theta2 = 90
+        omega1 = 0.15
+        omega2 = 0.15
+        y0 = (theta1, theta2, omega1, omega2)
+        T = 10
+        dt = 1e-3
+
+        f = DoublePendulum()
+        f.solve(y0, T, dt, "deg")
+
+        f.create_animation()
+        f.show_animation()
+        f.save_animation()
+
+    plot_energy()
+    animate()

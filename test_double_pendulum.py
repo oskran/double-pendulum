@@ -12,7 +12,7 @@ def test_derivatives():
     theta2 = 90
     omega1 = 0.15
     omega2 = 0.15
-    y = (theta1, theta2, omega1, omega2)
+    y = [theta1, theta2, omega1, omega2]
 
     excepted = [0.15, 0.15, -8.770, 0]
     tol = 1e-3
@@ -30,7 +30,7 @@ def test_rest():
     theta2 = 0
     omega1 = 0
     omega2 = 0
-    y0 = (theta1, theta2, omega1, omega2)
+    y0 = [theta1, theta2, omega1, omega2]
     T = 10
     dt = 1e-3
 
@@ -53,7 +53,7 @@ def test_stable_energy():
     theta2 = 90
     omega1 = 0.15
     omega2 = 0.15
-    y0 = (theta1, theta2, omega1, omega2)
+    y0 = [theta1, theta2, omega1, omega2]
     T = 10
     dt = 1e-3
     tol = 0.1
@@ -68,5 +68,5 @@ def test_stable_energy():
 
 test_stable_energy()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pytest.main()

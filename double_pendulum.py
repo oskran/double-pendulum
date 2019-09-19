@@ -8,6 +8,23 @@ from matplotlib import pyplot as plt
 
 
 class DoublePendulum:
+    """
+    A double Pendulum object
+    
+    Parameters
+    ----------
+    L1: float
+        The length of the first pendulum rod in meters.
+    M1: float
+        The mass of the first pendulum in kg.
+    L2: float
+        The length of the second pendulum rod in meters.
+    M2: float
+        The mass of the second pendulum in kg.    
+    g: float
+        The gravitational force in (m/s)^2
+    """
+
     def __init__(self, L1=1, M1=1, L2=1, M2=1):
         self.L1 = L1
         self.M1 = M1
@@ -17,8 +34,28 @@ class DoublePendulum:
 
     def __call__(self, t=0, y=0):
         """
-        Theta gives the pendulums position
-        Omega gives the velocity / movement
+        The ODEs to be solved
+
+        Takes a time and a state parameter and returns the derivative of the
+        position and the velocity.
+
+        Parameters
+        ----------
+        t: float
+            Time
+        y: array_like
+            State
+
+        Returns
+        -------
+        d_theta1: ndarray
+            Derivative of the first pendulums position = the velocity
+        d_theta2: ndarray
+            Derivative of the second pendulums position = the velocity            
+        d_omega1: ndarray
+            Derivative of the first pendulums velocity = the acceleration
+        d_omega2: ndarray
+            Derivative of the second pendulums velocity = the acceleration
         """
 
         g = self.g
@@ -53,9 +90,26 @@ class DoublePendulum:
 
     # 3b) Solving the equations of motions
     def solve(self, y0, T, dt, angles):
+        """ 
+        Solves the ODE given an initial value
+
+        Parameters
+        ----------
+        self.model: function
+            The ODE to be solved
+        u0: array like, shape (n,)
+            Initial value
+        T: int 
+            The end of the time interval
+        dt: float
+            Time between the points where the solution is evaluated
+        angles: string
+            Whether the initial condition is gives as degrees or radius
+        """
         self.dt = dt
         if angles == "deg":
-            y0 = [i * (math.pi / 180) for i in y0]
+            y0[0] = y0[0] * (math.pi / 180)
+            y0[1] = y0[1] * (math.pi / 180)
 
         assert angles in ["deg", "rad"], ValueError
 
@@ -66,35 +120,61 @@ class DoublePendulum:
     # 3c) Adding properties
     @property
     def t(self):
+        """ Returns the time points where the solution was evaluated """
         return self.solved.t
 
     @property
     def theta1(self):
-        return self.solved.y[0]
+        """ Returns the first pendulums position, where it was evaluated """
+        if hasattr(self, "solved") == False:
+            raise Exception(".solved() has not been called")
+        else:
+            return self.solved.y[0]
 
     @property
     def theta2(self):
-        return self.solved.y[1]
+        """ Returns the second pendulums position, where it was evaluated """
+        if hasattr(self, "solved") == False:
+            raise Exception(".solved() has not been called")
+        else:
+            return self.solved.y[1]
 
     @property
     def x1(self):
+        """ 
+        Converts the horizontal position of the first pendulum from polar
+        to cartesian coordinates  
+        """
         return self.L1 * np.sin(self.theta1)
 
     @property
     def y1(self):
+        """ 
+        Converts the vertical position of the first pendulum from polar 
+        to cartesian coordinates  
+        """
         return -self.L1 * np.cos(self.theta1)
 
     @property
     def x2(self):
+        """ 
+        Converts the horizontal position of the second pendulum from 
+        polar to cartesian coordinates  
+        """
         return self.x1 + self.L2 * np.sin(self.theta2)
 
     @property
     def y2(self):
+        """ 
+        Converts the vertical position of the second pendulum from polar 
+        to cartesian coordinates  
+        """
         return self.y1 - self.L2 * np.cos(self.theta2)
 
     # 3d) Checking energy conservation
     @property
     def potential(self):
+        """ Calculates potensial energy """
         P1 = self.M1 * self.g * (self.y1 + self.L1)
 
         P2 = self.M2 * self.g * (self.y2 + self.L1 + self.L2)
@@ -105,22 +185,27 @@ class DoublePendulum:
 
     @property
     def vx1(self):
+        """ Calculates the velocity of the first pendulum """
         return np.gradient(self.x1, self.t)
 
     @property
     def vy1(self):
+        """ Calculates the velocity of the first pendulum """
         return np.gradient(self.y1, self.t)
 
     @property
     def vx2(self):
+        """ Calculates the velocity of the second pendulum """
         return np.gradient(self.x2, self.t)
 
     @property
     def vy2(self):
+        """ Calculates the velocity of the second pendulum """
         return np.gradient(self.y2, self.t)
 
     @property
     def kinetic(self):
+        """ Calculates kintetic energy """
         K1 = (1 / 2) * self.M1 * ((self.vx1 ** 2) + (self.vy1 ** 2))
 
         K2 = (1 / 2) * self.M2 * ((self.vx2) ** 2 + (self.vy2 ** 2))
@@ -129,6 +214,7 @@ class DoublePendulum:
 
     # 4a) Setting up the animation
     def create_animation(self):
+        """ Creates an animation of the pendulum """
         # Create empty figure
         fig = plt.figure()
 
@@ -152,6 +238,7 @@ class DoublePendulum:
 
     # 4b) The `_next_frame` method
     def _next_frame(self, i):
+        """ Creates a frame in the animation """
         self.pendulums.set_data(
             (0, self.x1[i], self.x2[i]), (0, self.y1[i], self.y2[i])
         )
@@ -159,9 +246,11 @@ class DoublePendulum:
 
     # 4c) Interface for animations
     def show_animation(self):
+        """ Displays the animation """
         plt.show()
 
     def save_animation(self):
+        """ Saves the animation """
         self.animation.save("pendulum_motion.mp4", fps=60)
 
 
@@ -173,7 +262,7 @@ if __name__ == "__main__":
         theta2 = 90
         omega1 = 0.15
         omega2 = 0.15
-        y0 = (theta1, theta2, omega1, omega2)
+        y0 = [theta1, theta2, omega1, omega2]
         T = 10
         dt = 1e-3
 
@@ -193,7 +282,7 @@ if __name__ == "__main__":
         theta2 = 90
         omega1 = 0.15
         omega2 = 0.15
-        y0 = (theta1, theta2, omega1, omega2)
+        y0 = [theta1, theta2, omega1, omega2]
         T = 10
         dt = 1e-3
 

@@ -15,7 +15,7 @@ class DoublePendulum:
         self.M2 = M2
         self.g = 9.81
 
-    def __call__(self, t, y):
+    def __call__(self, t=0, y=0):
         """Theta gives the pendulums position
         Omega gives the velosity / movement"""
 

@@ -2,8 +2,10 @@ from exp_decay import ExponentialDecay
 
 # 1a) A class to represent the ODE - Unit test
 def test_1a():
-    """ Tests that the calculated derivative
-     of u is right gives some parameter values """
+    """ 
+    Tests that the calculated derivative
+     of u is right gives some parameter values 
+    """
     tol = 1e-15
     expected = -1.28
     f = ExponentialDecay(a=0.4)

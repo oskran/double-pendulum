@@ -44,8 +44,10 @@ test_rest()
 
 
 def test_stable_energy():
-    """ Tests that the largest deviation from mean
-    total energy is smaller than some value """
+    """ 
+    Tests that the largest deviation from mean
+    total energy is smaller than some value 
+    """
     theta1 = 90
     theta2 = 90
     omega1 = 0.15

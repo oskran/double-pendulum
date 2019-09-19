@@ -51,7 +51,8 @@ class Pendulum:
 
         assert angles in ["deg", "rad"], ValueError
 
-        solved = solve_ivp(self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
+        solved = solve_ivp(self, [0, T], y0, method="Radau", 
+                          t_eval=np.arange(0, T, dt))
 
         self.solved = solved
 
@@ -114,8 +115,10 @@ class DampenedPendulum(Pendulum):
         self.g = 9.81
 
     def __call__(self, t, y):
-        """Theta gives the pendulums position
-        Omega gives the velosity / movement"""
+        """
+        Theta gives the pendulums position
+        Omega gives the velocity / movement
+        """
 
         theta = y[0]
         omega = y[1]

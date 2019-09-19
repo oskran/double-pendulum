@@ -29,7 +29,7 @@ class ExponentialDecay:
         solved = solve_ivp(
             self, [0, T], [u0], method="Radau", t_eval=np.arange(0, T, dt)
         )
-        return solved.t, solved.y
+        return solved.t, solved.y[0, :]
 
 
 # 1b)
@@ -43,7 +43,7 @@ if __name__ == "__main__":
         decay_model = ExponentialDecay(a)
         t, u = decay_model.solve(u0, T, dt)
 
-        plt.plot(t, u[0, :])
+        plt.plot(t, u)
         plt.show()
 
     example_1b()

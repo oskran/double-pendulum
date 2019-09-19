@@ -36,8 +36,10 @@ test_rest()
 
 
 def test_2c_not_called():
-    """ Test whether an exception is raised if .t, .theta, 
-    or .omega are accessed before .solve() is called """
+    """ 
+    Test whether an exception is raised if .t, .theta, 
+    or .omega are accessed before .solve() is called 
+    """
     f = Pendulum()
 
     with pytest.raises(Exception):
@@ -50,9 +52,10 @@ test_2c_not_called()
 
 
 def test_2c_called():
-    """Checks that t_i ==  i*dt, and that the .theta and .omega
+    """
+    Checks that t_i ==  i*dt, and that the .theta and .omega
     arrays are full of zeros when the initial condition is [0, 0]
-     """
+    """
     f = Pendulum()
     omega0 = 0
     theta0 = 0
@@ -72,8 +75,10 @@ test_2c_called()
 
 
 def test_r2eql2():
-    """ Verifies that the radius squared is almost equal
-    to the length of the pendulum rod squared at all times """
+    """ 
+    Verifies that the radius squared is almost equal
+    to the length of the pendulum rod squared at all times 
+    """
     L = 2.7
     omega0 = 0.15
     theta0 = 3.14 / 6

@@ -59,7 +59,8 @@ class DoublePendulum:
 
         assert angles in ["deg", "rad"], ValueError
 
-        solved = solve_ivp(self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
+        solved = solve_ivp(
+            self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
 
         self.solved = solved
 

@@ -251,7 +251,7 @@ class DoublePendulum:
 
     def save_animation(self):
         """ Saves the animation """
-        self.animation.save("pendulum_motion.mp4", fps=60)
+        self.animation.save("example_simulation.mp4", fps=60)
 
 
 if __name__ == "__main__":

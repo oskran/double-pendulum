@@ -1,7 +1,6 @@
 from pendulum import Pendulum, DampenedPendulum
 import math
 import numpy as np
-from matplotlib import pyplot as plt
 import pytest
 
 # 2a) A class for representing the system
@@ -99,5 +98,5 @@ def test_r2eql2():
 
 test_r2eql2()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pytest.main()

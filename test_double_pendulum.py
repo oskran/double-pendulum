@@ -1,6 +1,7 @@
 from double_pendulum import DoublePendulum
 from matplotlib import pyplot as plt
 import numpy as np
+import pytest
 
 
 def test_derivatives():
@@ -66,3 +67,6 @@ def test_stable_energy():
 
 
 test_stable_energy()
+
+if __name__ == '__main__':
+    pytest.main()

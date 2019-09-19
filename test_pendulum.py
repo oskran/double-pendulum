@@ -5,6 +5,8 @@ from matplotlib import pyplot as plt
 import pytest
 
 # 2a) A class for representing the system
+
+
 def test_derivatives():
     """ Test that the derivatives are computed correctly """
     f = Pendulum(L=2.7)
@@ -96,3 +98,6 @@ def test_r2eql2():
 
 
 test_r2eql2()
+
+if __name__ == '__main__':
+    pytest.main()

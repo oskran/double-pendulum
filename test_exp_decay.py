@@ -1,4 +1,6 @@
 from exp_decay import ExponentialDecay
+import pytest
+
 
 # 1a) A class to represent the ODE - Unit test
 def test_1a():
@@ -15,5 +17,8 @@ def test_1a():
     assert calc < tol, msg
 
 
-if __name__ == "__main__":
-    test_1a()
+# if __name__ == "__main__":
+#     test_1a()
+
+if __name__ == '__main__':
+    pytest.main()

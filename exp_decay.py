@@ -2,8 +2,6 @@ from scipy.integrate import solve_ivp
 import numpy as np
 from matplotlib import pyplot as plt
 
-# 1b) Solving the ODE
-
 
 class ExponentialDecay:
     def __init__(self, a):
@@ -32,7 +30,6 @@ class ExponentialDecay:
         return solved.t, solved.y[0, :]
 
 
-# 1b)
 if __name__ == "__main__":
 
     def example_1b():

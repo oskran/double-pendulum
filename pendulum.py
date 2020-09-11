@@ -22,7 +22,7 @@ class Pendulum:
     def __init__(self, L=1, M=1):
         self.L = L
         self.M = M
-        self.g = 9.81
+        self.G = 9.81
 
     def __call__(self, t=0, y=0):
         """
@@ -51,11 +51,10 @@ class Pendulum:
 
         d_theta = np.array(omega)
 
-        d_omega = -(self.g / self.L) * np.sin(theta)
+        d_omega = -(self.G / self.L) * np.sin(theta)
 
         return [d_theta, d_omega]
 
-    # 2b) Solving the equations of motions
     def solve(self, y0, T, dt, angles):
         """ 
         Solves the ODE given an initial value
@@ -107,7 +106,6 @@ class Pendulum:
         else:
             return self.solved.y[1]
 
-    # 2d) Translating to Cartesian coordinates
     @property
     def x(self):
         """ Converts the horizontal position from polar to cartesian coordinates  """
@@ -118,11 +116,10 @@ class Pendulum:
         """ Converts the vertical position from polar to cartesian coordinates  """
         return -self.L * np.cos(self.theta)
 
-    # 2e) Energy conservation
     @property
     def potential(self):
         """ Calculates potensial energy """
-        return self.M * self.g * (self.y + self.L)
+        return self.M * self.G * (self.y + self.L)
 
     @property
     def kinetic(self):
@@ -138,9 +135,6 @@ class Pendulum:
     def vy(self):
         """ Calculates the velocity of the pendulum """
         return np.gradient(self.y, self.t)
-
-
-# 2g) A Dampened Pendulum
 
 
 class DampenedPendulum(Pendulum):
@@ -163,7 +157,7 @@ class DampenedPendulum(Pendulum):
         self.B = B
         self.L = L
         self.M = M
-        self.g = 9.81
+        self.G = 9.81
 
     def __call__(self, t, y):
         theta = y[0]
@@ -173,12 +167,11 @@ class DampenedPendulum(Pendulum):
 
         damp = (self.B / self.M) * omega
 
-        d_omega = (-(self.g / self.L) * math.sin(theta)) - damp
+        d_omega = (-(self.G / self.L) * math.sin(theta)) - damp
 
         return [d_theta, d_omega]
 
 
-# 2f) Example use
 if __name__ == "__main__":
 
     def plot_motion():
@@ -212,7 +205,6 @@ if __name__ == "__main__":
 
         plt.show()
 
-    # 2g) A Dampened Pendulum
     def plot_dampened_energy():
         """ Plots the total energy of the dampened pendulum  """
         omega0 = 0.15

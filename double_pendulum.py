@@ -4,8 +4,6 @@ import numpy as np
 from matplotlib import animation
 from matplotlib import pyplot as plt
 
-# 3a) A class for representing the system
-
 
 class DoublePendulum:
     """
@@ -30,7 +28,7 @@ class DoublePendulum:
         self.M1 = M1
         self.L2 = L2
         self.M2 = M2
-        self.g = 9.81
+        self.G = 9.81
 
     def __call__(self, t=0, y=0):
         """
@@ -58,7 +56,7 @@ class DoublePendulum:
             Derivative of the second pendulums velocity = the acceleration
         """
 
-        g = self.g
+        g = self.G
         L1 = self.L1
         M1 = self.M1
         L2 = self.L2
@@ -88,7 +86,6 @@ class DoublePendulum:
 
         return [d_theta1, d_theta2, d_omega1, d_omega2]
 
-    # 3b) Solving the equations of motions
     def solve(self, y0, T, dt, angles):
         """ 
         Solves the ODE given an initial value
@@ -115,13 +112,12 @@ class DoublePendulum:
 
         solved = solve_ivp(self, [0, T], y0, method="Radau", t_eval=np.arange(0, T, dt))
 
-        self.solved = solved
+        self._solved = solved
 
-    # 3c) Adding properties
     @property
     def t(self):
         """ Returns the time points where the solution was evaluated """
-        return self.solved.t
+        return self._solved.t
 
     @property
     def theta1(self):
@@ -129,7 +125,7 @@ class DoublePendulum:
         if hasattr(self, "solved") == False:
             raise Exception(".solved() has not been called")
         else:
-            return self.solved.y[0]
+            return self._solved.y[0]
 
     @property
     def theta2(self):
@@ -137,7 +133,7 @@ class DoublePendulum:
         if hasattr(self, "solved") == False:
             raise Exception(".solved() has not been called")
         else:
-            return self.solved.y[1]
+            return self._solved.y[1]
 
     @property
     def x1(self):
@@ -171,13 +167,12 @@ class DoublePendulum:
         """
         return self.y1 - self.L2 * np.cos(self.theta2)
 
-    # 3d) Checking energy conservation
     @property
     def potential(self):
         """ Calculates potensial energy """
-        P1 = self.M1 * self.g * (self.y1 + self.L1)
+        P1 = self.M1 * self.G * (self.y1 + self.L1)
 
-        P2 = self.M2 * self.g * (self.y2 + self.L1 + self.L2)
+        P2 = self.M2 * self.G * (self.y2 + self.L1 + self.L2)
 
         P = P1 + P2
 
@@ -212,7 +207,6 @@ class DoublePendulum:
 
         return K1 + K2
 
-    # 4a) Setting up the animation
     def create_animation(self):
         """ Creates an animation of the pendulum """
         # Create empty figure
@@ -236,7 +230,6 @@ class DoublePendulum:
             blit=True,
         )
 
-    # 4b) The `_next_frame` method
     def _next_frame(self, i):
         """ Creates a frame in the animation """
         self.pendulums.set_data(
@@ -244,7 +237,6 @@ class DoublePendulum:
         )
         return (self.pendulums,)
 
-    # 4c) Interface for animations
     def show_animation(self):
         """ Displays the animation """
         plt.show()
@@ -255,7 +247,7 @@ class DoublePendulum:
 
 
 if __name__ == "__main__":
-    # 3d) Checking energy conservation - Plotting
+
     def plot_energy():
         """ Plots potential, kinetic and total energy """
         theta1 = 90
@@ -275,7 +267,6 @@ if __name__ == "__main__":
 
         plt.show()
 
-    # 4d) Creating an animation
     def animate():
         """ Creates, shows, and saves an animation of the pendulum """
         theta1 = 90

@@ -1,1 +1,5 @@
-https://github.uio.no/IN1910/H19_project1_alizamij_oskarra
+Double pendulum
+
+Project in IN1910.
+Simulates the dynamics of a double pendulum.
+<a href="https://en.wikipedia.org/wiki/Double_pendulum">See more<a>
